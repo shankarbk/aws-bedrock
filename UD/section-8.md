@@ -1,21 +1,53 @@
 ## Overview of AI Agents
+(Refer slide : 29-LLM-limitations.png)
+
 Sample user request : john is looking to take a two week skiing vacation from mid December if he has adequate leaves. He also needs help with vacation planning like hotel booking, airline booking and so on. It's not a simple task like generating content or summarizing content, but it's a collection of tasks and decisions.
 
-The application needs to check the leaf balance. If he has two weeks leave then maybe research locations for skiing, check the weather report and see if it's going to snow in December.
-Book a flight, book a hotel.
+The application needs to check the leave balance. If he has two weeks leave then maybe research locations for skiing, check the weather report and see if it's going to snow in December, Book a flight, book a hotel.
 
 - when you have user request, which are complex in nature, requiring decision making, a large 
   language model might not be the right fit in that scenario.
 
-- So one of the limitations of the large language models can be overcome by building RAG (retrieval augmented generation) based applications by connecting the LLMs to the internal data sources.(Ex: HR Data source)
+- The limitations of the large language models can be overcome by building RAG (retrieval augmented generation) based applications by connecting the LLMs to the internal data sources.(Ex: HR Data source).
+- LLM cannot answer questions related to current data or where external API's are required.
 
-- let's say we have built an Agentic app and this request is sent to this Agentic app or agents.
-    (agents are driven by large language models(LLM). So the primary brain or thinking capability that agents possess is powered by a large language model.)
+- we have built an Agentic app and this request is sent to this Agentic app or agents.
+    (agents are driven by large language models(LLM), the primary brain or thinking capability that agents possess is powered by a large language model.)
 
     - Here we used CrewAI (Vacation planner AI Gaentic app)
 
+- Q: how the Agentic app is going to process the user request ?
+Ans : (Refer slide : 30-Agents-core-capabilities-or-charectors.png, 31-Agents-core-capabilities-or-charectors.png)
+1. Task Decomposition and planning :
+    Once Agentic App receives the user request, It breaks the complex task into subtasks - this is mainly done by the large language model which is driving the agent.)
 
-characteristics of AI agents:
+2. Tools and Actions :
+    The agent will be provided with certain set of tools based on its domain or the purpose for which it has been built.
+
+3. Memory for end user interaction:
+     Interaction with the user would be retained in some form of data store, maybe a database, in-memory store or whatever service you may choose. And this can be both long term and short term memory.
+
+4. Guardrails :
+    prevent toxicity, hallucination of the large language model that is driving the agent.
+    user may send some toxic input, these agents should be able to detect and block those user requests.
+
+5. Agent COmmunication:
+     Master agent that can assign tasks to various slave agents. it is captured through the communication capability of AI agents.
+
+Refer slide : 32-agentic-definition.png (General meaning of Agentic)
+Refer slide : 33-agenticAI-definition.png (General meaning of AgenticAI)
+                - Intellegent Autonomous Systems : no need to give it explicit directions on how to solve a   
+                  problem.
+                - Plan, Reason and Act : It took the problem, broke it down into multiple tasks, and then did 
+                  some action or executed some tools to get the right answer.
+                - Able to Access enterprise data : for example it is able to access the internal HR system
+                  to get data 
+                - Able to use tools : how we can integrate tools (Ex:  Lambda function with an AI agents)
+
+So it's going to take a look at the problem, break it down and then solve it iteratively.
+
+
+characteristics of AI agents (Refer slide : 30-Agents-core-capabilities-or-charectors.png, 31-Agents-core-capabilities-or-charectors.png):
 there are five key characteristics of AI agents.
 
 1. Planning : Dynamic Task planning
@@ -35,12 +67,15 @@ there are five key characteristics of AI agents.
 
 
 ## CrewAI Refresher
-What is CrewAI ?
+What is CrewAI ? (Refer slide : 34-CrewAI.png)
 It's the multi-agent platform, to build powerful AI agents by using any LLM and cloud platform.
 it is also cloud platform agnostic. its built using python and completely independent.
 its opensource.
 
+
+    
 CrewAI Key Concepts:
+(Refer slide : 35-crewai-concepts.png)
 1. Agents : works on specialized tasks ( These agents accomplish some Tasks)
 
 2. Tasks : tasks are defined to achieve the goal. And those tasks are assigned to different 
@@ -52,7 +87,7 @@ CrewAI Key Concepts:
 4. Crew : crew organizes the overall operations to achieve the final outcome.
              you can think of this crew as a orchestrator, which works with the different agents, tasks, processes to generate the final outcome.
 
-Agents in CrewAI : 
+Agents in CrewAI : (Refer slide : 36-crewAI-agent.png)
     Agent is an autonomous unit that can:
 
     - It can perform **specific tasks** --> It can search the web or Maybe it can read the data from PDF files and it can do whole bunch of specific tasks.
@@ -67,7 +102,7 @@ Agents in CrewAI :
 
 autonomous unit means that it is able to make decisions independently with minimal guidance.
 
-Agent Attributes(mandatory attribute to define to build an agent):
+Agent Attributes(mandatory attribute to define to build an agent): (Refer slide : 37-crewAI-attributes.png)
 1. Role - it is a role that you provide to the agent, It's a AGENTS specialized function.
          It can be a travel agent, summarizer agent, coding agent.
 
@@ -79,7 +114,7 @@ Agent Attributes(mandatory attribute to define to build an agent):
 
     Refer the crewAi documentation for more info.
 
-Task in CrewAI : 
+Task in CrewAI : (Refer slide : 38-crewAI-tasks.png)
     Tasks represent the concrete work that the agent will perform with a detailed instructions and expected output.
     Ex: our use case, then our research agent is going to execute the research task. And that research task is going to be gather comprehensive information from internet on the tourist spots and history about London.
 
@@ -90,12 +125,12 @@ Task in CrewAI :
         Agent
         Tools
 
-Processes in CrewAI :
+Processes in CrewAI : (Refer slide : 39-crtewAI-process.png)
     processes orchestrate the execution of tasks by the agents.
     Sequential
     Hirarchial
 
-Crew in CrewAI:
+Crew in CrewAI: (Refer slide : 40-crew-in-crewAI.png)
     crew represents collaborative group of agents working together to achieve a set of tasks or outcome.
     Key attributes of Crew:
         Agents (mandatory) - when you are defining the crew, you have to define all the agents that are going to be used as part of that crew.
@@ -104,7 +139,9 @@ Crew in CrewAI:
 
 
 ## MCP (Model Context Protocol)
-
+(Refer slide : 41-mcp-intro.png)
+MCP is an open souce protocol that standardizes how applications provide context to LLMs
+. 
 M - Large Language Model that you use to build your AI application.
 C - Context of the module
     Ex: To build an HR chatbot application to answer the employee query it needs access to certain enterprise HR data or third party data.
