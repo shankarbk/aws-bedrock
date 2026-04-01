@@ -15,4 +15,4 @@ Go To : section-8.md
     - the Summarizer agent will process the input received by the travel agent, summarize and sends the final report back to our end user.
 
 [Hands-On](#) : code --> 3.demo_app_crewai.zip
-                 Follow the steps : CrewAI Installation and Run Guide (in thhe same code base : 3.demo_app_crewai.zip)
+                 Follow the steps : CrewAI Installation and Run Guide (file availabe in in thhe same code base : 3.demo_app_crewai.zip)

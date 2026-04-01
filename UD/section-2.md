@@ -88,7 +88,7 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
 * (Refer slide : 10-bedrock-agentCore-capabilities.png)
     - Bedrock AgentCore allows you to deploy AgenticAI apps which is built on any framework and foundation model to **AgentCore Runtime**.
     - AgentCore Runtime is like lambda for AI-Agents
-    - In Existing code you need to add "AgentCore runtime decorator" to deploy it in AgentCore Runtime.
+    - In Existing code you need to add "AgentCore runtime decorator" (@app.entrypoint) to deploy it in AgentCore Runtime.
     - AgentCore Runtime supports any AgenticAI Frameworks (Ex: Langchain, crewAI, Strands Agent etc.. etc..)
     - AgentCore Runtime supports any LLM models (Ex: OpenAI, Gemini, Amazon Bedrock etc.. etc..)
     - When you deploy your AgenticAI application on AWS AgentCore Runtime, it provides you 2 endpoints 
