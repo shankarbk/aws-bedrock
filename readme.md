@@ -1,7 +1,7 @@
 What is Amazon Bedrock ?
 It is the Serverless agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model. 
 
-- Its a fully managed service that makes FMs from leading AI startups and Amazon availabe via API, so that you can choose from wide range of FMs (Foundation Models) to find the model that suited for your usecse.
+- Its a fully managed service that makes FMs (foundation models) from leading AI startups and Amazon availabe via API, so that you can choose from wide range of FMs (Foundation Models) to find the model that suited for your usecse.
 
 What is foundation models (FMs) ?
 These are large-scale AI LLM models trained on vast, typically unlabeled data, acting as the versatile base (or foundation) for many AI applications
@@ -10,7 +10,7 @@ What is LLM models ?
 A Large Language Model (LLM) is a type of AI designed to understand, generate, and analyze human-like text by training on vast datasets. Using deep learning and neural networks, LLMs predict the next likely word in a sequence to create contextually relevant content, such as answering questions, translating languages, and writing code.
 
 what is RAG ?
-Retrieval-Augmented Generation (RAG) is an AI framework that improves Large Language Model (LLM) accuracy by retrieving data from external, trusted sources before generating a response.
+Retrieval-Augmented Generation (RAG) is an AI framework that improves Large Language Model's (LLM) accuracy by retrieving data from trusted sources before generating a response.
 Ex: Getting data from Enterprise DB instead of guessing
 
 Agentic AI frameworks (most famous)
@@ -20,15 +20,15 @@ Agentic AI frameworks (most famous)
 
 MCP(Model Context Protocol) : Its communication protocol between agent and tools.
 
-- What is Generative AI ?
+- What is **GenerativeAI** ?
 Generative AI creates new content (text, images, code) in response to prompts, acting as a reactive tool.
 
-What is AgenticAI ?
+What is **AgenticAI** ?
 Agentic AI acts proactively as an autonomous agent, breaking down complex goals into multi-step, independent actions using tools.
 
-What is AI-Agents ? 
+What is **AI-Agents** ? 
 AI Agents are specialized, often standalone, software programs designed to perform specific, predefined tasks, such as booking a meeting. 
-    AI agents are tools, while Agentic AI is the system that coordinates them
+    AI agents are softwares, while Agentic AI is the system that coordinates them
 
 - Open Source AgenticAI Frameworks (actively used frameworks as below):
     1. General-Purpose Agent Frameworks (Most Popular)
