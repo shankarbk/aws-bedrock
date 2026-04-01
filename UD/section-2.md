@@ -1,11 +1,11 @@
 - What is Amazon Bedrock AgentCore ?
-Amazon Bedrock AgentCore is an agentic platform to build, deploy, and operate highly capable agents securely at scale. 
+Amazon Bedrock AgentCore is an **agentic platform** to build, deploy, and operate highly capable agents securely at scale. 
 
 Amazon Bedrock AgentCore service provides a set of capabilities that can help you transition from POC built on agentic AI to production ready systems.
 
-- Amazon Bedrock AgentCore and Amazon Bedrock Agents are two different services in the AWS GenAI ecosystem. 
+- Amazon Bedrock AgentCore and Amazon Bedrock Agents are two different services in the AWS GenAI Ecosystem. 
     - Amazon Bedrock Agents : is a fully managed service that allows you to build and configure autonomous agents without managing infrastructure or writing custom code. 
-    - Amazon Bedrock AgentCore is a comprehensive set of services designed to deploy and operate AI agents securely at scale using any AI framework and Large Language Model.
+    - Amazon Bedrock AgentCore :  is a comprehensive set of services designed to deploy and operate AI agents securely at scale using any AI framework and Large Language Model.
 
 - Core Problems AgentCore Fixes:
     1. LLMs are stateless
@@ -82,48 +82,48 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
         Still dependent on LLM reliability
         Can feel like a “black box” in complex workflows
 
-- Once we built Generative AI (RAG or Agentic AI applications) deploying them to production wrt scalability, scalability, observability monitoring is a big challenge, thats where Bedrock agent Core come into. 
+- Once we built AgenticAI (RAG or GenerativeAI ) applications, deploying them to production wrt scalability, observability monitoring is a big challenge, thats where Bedrock AgentCore come into. 
 
 
 * (Refer slide : 10-bedrock-agentCore-capabilities.png)
-    - Bedrock agent core allows you to deploy AgenticAI apps which is built on any framework and foundation model to **AgentCore Runtime**.
-    - AgentCore Runtime is like lambda for AI agents
+    - Bedrock AgentCore allows you to deploy AgenticAI apps which is built on any framework and foundation model to **AgentCore Runtime**.
+    - AgentCore Runtime is like lambda for AI-Agents
     - In Existing code you need to add "AgentCore runtime decorator" to deploy it in AgentCore Runtime.
     - AgentCore Runtime supports any AgenticAI Frameworks (Ex: Langchain, crewAI, Strands Agent etc.. etc..)
     - AgentCore Runtime supports any LLM models (Ex: OpenAI, Gemini, Amazon Bedrock etc.. etc..)
     - When you deploy your AgenticAI application on AWS AgentCore Runtime, it provides you 2 endpoints 
         1. /invocation Endpoint(POST)
         2. /ping Endpoint (Health Check) 
-    - You can deploy our AgenticAI application publicly accessible (allow agents to operate in the public environment) or you deploy the agents within 
+    - You can deploy your AgenticAI application publicly accessible (allow agents to operate in the public environment) or you deploy the Agents within 
       VPC cloud for secure private communication and tighter network access control.
-    - Once app is deployed, AgentCore provides the invocation code . we are going to use this to access the endpoint. (this invocation code is used to 
+    - Once app is deployed, AgentCore provides the invocation code. we are going to use this to access the endpoint. (this invocation code is used to 
       create a lambda function and expose endpoint to the AWS API gateway.)
 
 * (Refer slide : 11-bedrock-agentCore-capabilities.png)
     - Once the application is hosted on AgentCore Runtime, User issues requests to our AgenticAI application
     - Before the user hits request to application we need to make sure the user is Authenticated and Authorised to access our application.
-    - To Authenticate the user Bedrock AgentCore provides the capability called **AgentCore Identity**
+    - To Authenticate the user, Bedrock AgentCore provides the capability called **AgentCore Identity**
     - AgentCore Identity works in 2 stages
         1. Inbound :
-                    - user is authenticated before he can access the agent.
-                    - It looks for the Authentication and Authorization between the end user and AgenticAI application.
+                    - User needs to authenticate before he can access the agent.
+                    - It is the Authentication and Authorization between the end user and AgenticAI application.
                     - For this it supports any Identity providers (Ex: Amazon Cognito, EntraID, Octa etc.. etc..)
-                    - When user has Authenticated using Amazon Cognito, The Amazon Cognito generates Barer token and send it to AgentCore Identity, here it validates the token, once its approved then user able to send the request to Endpoint and access the AgenticAI application.
+                    - When user has Authenticated using Amazon Cognito, The Amazon Cognito generates Barer token and send it to AgentCore Identity, here it validates the token, once its approved then user able to send the request to Endpoint("/invocation Endpoint") and access the AgenticAI application.
 
-        2. Outbound:
+        2. Outbound: --we'll see it later--
 
 
 * (Refer slide : 12-bedrock-agentCore-capabilities.png)
     - **AgentCore Memory** is the managed service, provides memory in 2 levels
         1. Short-term memory :
-            It sonly active during session duration.
+            It is only active during session duration.
             we have option to keep the short-term memory between 7 to 365 days. 
 
         2. Long-term memory
             Provides multiple strategies to keep the memory : Summarization, Semantic and user preference.
 
 * (Refer slide : 13-bedrock-agentCore-capabilities.png)
-    - The AgentCore Observability monitors the agent performance in production via Cloudwatch Logs, Cloudwatch metrics and GenAi Observability.
+    - The AgentCore Observability monitors the **Agent performance** in production via Cloudwatch Logs, Cloudwatch metrics and GenAi Observability.
 
 * (Refer slide : 14-bedrock-agentCore-capabilities.png)
     - 👉 These three (AgentCore Gateway, AgentCore Browser, AgentCore Interpretor) are how an agent actually interacts with the outside world.
@@ -132,8 +132,8 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
     - Our AgentCore application needs some information from backend resources (Ex: S3 bucket, AWS Lambda, OpenAPI target, DataBase etc.. etc..), The 
       AgentCore Gateway helps to retreive those information, for this **AgentCore Gateway** helps in 3 ways.
         1. AgentCore Gateway integrate with AgentCore Identity (Here the "Outbound" Came into picture.)
-           The **AgentCore Outbound Identity** validates whether the AgentCore Application and the User has permission to access the backend resources 
-           retrived through these tools. ( is it have right API Key to access such information)
+           The **AgentCore Outbound Identity** validates whether the AgentCore Application has permission to access the backend resources 
+           retrived through these tools. ( does it have right API Key to access such information ? )
 
         2. Tool Discovery : Based on the user query, the AgentCore Gateway autometically does the tool discovery and use the right tool amoung N number 
            of tools.
@@ -141,7 +141,7 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
         3. MCPfying the tools used by our Agentic application.
     
     **AgentCore Browser**
-    - AgentCore Browser is not a UI browser like Chrome. It’s a controlled, programmatic web interaction capability for AI agents.
+    - AgentCore Browser is not a UI browser like Chrome. It’s a controlled programmatic web interaction capability for AI agents.
     - AgentCore Browser allows an AI agent to interact with websites like a human would — but programmatically.
         That includes:
             Opening web pages
@@ -173,18 +173,19 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
                 Find API
                 Handle auth
                 Parse JSON
-                With AgentCore Browser:
+                
+                
+            With AgentCore Browser:
+                Agent:
+                    Opens AWS pricing page
+                    Searches instance type
+                    Extracts pricing table
+                    Summarizes
 
-            Agent:
-                Opens AWS pricing page
-                Searches instance type
-                Extracts pricing table
-                Summarizes
-
-            👉 No API required.
+                👉 No API required.
 
     **AgentCore Interpretor**
-    - AgentCore Interpreter is not just a code runner.It’s the execution engine that lets an AI agent safely run logic (code, calculations, data 
+    - AgentCore Interpreter is not just a code runner. It’s the execution engine that lets an AI agent safely run logic (code, calculations, data 
       processing) as part of its reasoning loop.
     - AgentCore Interpreter (within Amazon Bedrock AgentCore) allows an agent to:
         👉 Write → execute → observe → refine code during task execution
@@ -204,7 +205,7 @@ Amazon Bedrock AgentCore service provides a set of capabilities that can help yo
 
 
 Core services in Amazon Bedrock AgentCore ( GO KRIM ):
-1. AgentCore Runtime : 👉 The execution engine of your agent
+1. AgentCore Runtime : 👉 The execution engine of your Agent
 
                             What it is:
                                 The environment where your agent actually runs
@@ -221,12 +222,12 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                         AgentCore Runtime is used to run our AgenticAI application that we built.
                     - its similar to AWS lambda.
                     - to run the code we need to add "AgentCore Runtime decorator" (its a python decorator)
-                    - we can use any AgenticAi framework to run ourcode on AgentCore runtime(Ex: LangGraph, CrewAi, Strands Agent)
+                    - we can use any AgenticAI framework to run ourcode on AgentCore runtime(Ex: LangGraph, CrewAi, Strands Agent)
                     - we can also use any LLM models (Ex: OpenAi, Gemini, AMazon Bedrock)
-                    - Once we deployed our AgenticAi code ro AgenticCore Runtime, it provides 2 endpoints (POST - invocation endpoint 
+                    - Once we deployed our AgenticAI code to AgenticCore Runtime, it provides 2 endpoints (POST - invocation endpoint 
                               PING  - Health check endpoint) 
 
-2.  AgentCore Identity : 👉 Security + authentication layer for agents
+2.  AgentCore Identity : 👉 Security + authentication layer for Agents
 
                             What it is:
                                 Manages who the agent is and what it can access
@@ -237,10 +238,8 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                                 Permissions (IAM integration)
                         
                         ---video notes---
-                        Allows agents to securely access and operate across AWS resources or third-party tools and services, on behalf of users 
-                            or by themselves.
-                        which Authenticates and Authorises the users to request to our     
-                            application 
+                        Allows agents to securely access and operate across AWS resources or third-party tools and services, on behalf of users or by themselves.
+                        which Authenticates and Authorises the users to request to our application.
                         - it works in 2 layers 
                             1. Inbound - Authentication and Authorization (it supports any identity providers Ex: Amazon Cognito, Octa)
                             2. Outbound - 
@@ -264,8 +263,7 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                                 Becomes a dumb chatbot
                         
                         ---video notes---
-                        Enables developers to build context-aware agents by eliminating complex memory infrastructure management while providing    
-                        full control over agent memory.
+                        Enables developers to build context-aware agents by eliminating complex memory infrastructure management while providing full control over agent memory.
                         its amanaged service which provides memory at 2 levels
                         1. Short term memory - used for session duration
                         2. Long term memory - used for Summarization, semantic and User experiance
@@ -281,9 +279,8 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                                     Metrics (latency, failures)
 
                             ---video notes---
-                            Gives developers complete visibility into agent workflows to trace, debug, and monitor agents' performance.
-                            It monitors the Agent performance in production using Aws Cloud 
-                            watch, GenAI Observability
+                            Gives developers complete visibility into agent workflows to trace, debug, and monitor agent's performance.
+                            It monitors the Agent performance in production using Aws Cloudwatch, GenAI Observability.
 
 5. AgentCore Gateway: 👉 The unified entry point for tools/APIs
 
@@ -300,21 +297,19 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                       
                       ---video notes---
                       Using AgentCore Gateway, The Agent that we built can interact with Services or API's or tools.
-                      Its a management layer between the agents and the tools.
+                      **Its a management layer between the agents and the tools**.
                         - We can also transform our existing API's (Ex: our application) into agentic tools through gateway.
                         - supports both OpenAPI and smithy API specificaion formats.
                         - It supports Lambda functions to expose to AgentCore gateway.
                         - Gateway Symantically serach the correct tool to get better outcomes (also limits and filters the tool amoung the hundreds of tools.)
                         - it supports the MCP protocol which helps the Agents to interact with AgentCore Gateway.
                         - It also supports the Authenticatin via identity providers
-                        Ingress :  The Agent Interacting with Gateway endpoint.
-                        Egress : The gateway endpoint to Tools we have exposed
                         - Its like an API Gateway — but for AI agents
 
 6. AgentCore Browser : 👉 Web interaction capability (UI automation)
 
                             What it is:
-                                A controlled browser environment for agents
+                                A controlled browser environment for Agents
 
                             What it does:
                                 Open websites
@@ -338,13 +333,10 @@ Core services in Amazon Bedrock AgentCore ( GO KRIM ):
                                     Run logic
 
                             ---video notes---
-                            Enables agents to write and execute code securely in sandbox environments, enhancing their accuracy and expanding ability 
-                            to solve complex end-to-end tasks.
+                            Enables agents to write and execute code securely in sandbox environments, enhancing their accuracy and expanding ability to solve complex end-to-end tasks.
 
-- Which Agent AI frameworks does AgentCore support ?
-AgentCore works with custom frameworks and any open-source framework, including CrewAI, LangGraph, LlamaIndex, Google ADK, OpenAI Agents SDK, and Strands Agents.
+- Which AgenticAI frameworks does AWS Bedrock AgentCore support ?
+AWS Bedrock AgentCore works with custom frameworks and any open-source framework. Ex: CrewAI, LangGraph, LlamaIndex, Google ADK, OpenAI Agents SDK, and Strands Agents.
 
-- Which Large Language Models does AgentCore support ?
-AgentCore is designed to be model-agnostic, working with any foundation model in or outside of Amazon Bedrock including OpenAI, Google's Gemini, Anthropic's Claude, Amazon Nova, Meta Llama, and Mistral models.
-
-- knowledge is a managed solution from AWS.
+- Which Large Language Models does AWS Bedrock AgentCore support ?
+AWS Bedrock AgentCore is designed to be model-agnostic, working with any foundation model in or outside of Amazon Bedrock including OpenAI, Google's Gemini, Anthropic's Claude, Amazon Nova, Meta Llama, and Mistral models.
