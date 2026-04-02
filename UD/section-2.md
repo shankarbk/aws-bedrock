@@ -268,7 +268,7 @@ Additional Built-in Capabilities (Often Treated as Core Tools)
 
     Note: AgentCore Memory is not a simple vector database. It includes intelligent extraction, consolidation, and multiple specialized memory types that go far beyond basic RAG.
 
-3. AgentCore Gateway:
+3. **AgentCore Gateway**:   
     Amazon Bedrock AgentCore Gateway is a fully managed service within the Amazon Bedrock AgentCore platform (launched/announced around mid-2025). It acts as a centralized, secure tool server that connects AI agents to real-world tools, APIs, data sources, and services.
     It primarily functions as a unified MCP (Model Context Protocol) server. MCP is an open standard (originally from Anthropic, now under the Linux Foundation) that standardizes how AI agents discover, select, and invoke tools.
 
@@ -379,21 +379,17 @@ Additional Built-in Capabilities (Often Treated as Core Tools)
             - Autonomous agent access (workload identity with its own credentials).
             - Hybrid scenarios.
 
-    * How It Works (High-Level Flow)
+    * How It Works (High-Level Flow)   
 
-        Inbound:
-            1. User/application calls an AgentCore Runtime endpoint.
-            2. Agent Authorizer validates the request (JWT, Cognito token, etc.).
+        Inbound:   
+            1. User/application calls an AgentCore Runtime endpoint.   
+            2. Agent Authorizer validates the request (JWT, Cognito token, etc.).   
             3. If allowed, the request reaches the agent.
 
-        Outbound:
-
-            1. Agent needs to call an external tool/service (via Gateway or directly).
-
-            2. Agent requests credentials from Resource Credential Provider.
-
-            3. Resource Token Vault securely provides the appropriate token/API key (based on stored config and user consent).
-
+        Outbound:   
+            1. Agent needs to call an external tool/service (via Gateway or directly).   
+            2. Agent requests credentials from Resource Credential Provider.   
+            3. Resource Token Vault securely provides the appropriate token/API key (based on stored config and user consent).   
             4. Agent uses the short-lived credential to call the target (e.g., Slack API, Google Drive).
 
         Everything is audited and integrates with AgentCore Observability.
@@ -408,7 +404,7 @@ Additional Built-in Capabilities (Often Treated as Core Tools)
 
     Note: AgentCore Identity is not a replacement for AWS IAM. It complements IAM by focusing on agent-specific workload identities and external (often OAuth-based) credential management.
 
-5. AgentCore Observability :
+5. **AgentCore Observability** :   
     Amazon Bedrock AgentCore Observability is a built-in observability capability within the Amazon Bedrock AgentCore platform. It provides comprehensive tracing, debugging, monitoring, and performance insights for AI agents and related resources (Runtime, Memory, Gateway, Identity, Policy, and built-in tools) in production environments.
     It helps you visualize every step of an agent's workflow, audit decisions and intermediate outputs, identify bottlenecks or failures, and monitor operational metrics such as latency, token usage, error rates, and session duration.
 
@@ -507,7 +503,7 @@ Additional Built-in Capabilities (Often Treated as Core Tools)
 
     AgentCore Observability works hand-in-hand with other AgentCore services (Runtime for hosting, Gateway for tools, Memory for context, Identity for auth). It is essential for running reliable, production-grade AI agents at scale.
 
-6. AgentCore Policy
+6. **AgentCore Policy** :   
     Amazon Bedrock AgentCore Policy is a fully managed, centralized policy engine that provides deterministic, fine-grained control over what AI agents can and cannot do when interacting with tools. It acts as a protective layer that enforces rules outside the agent's code and before any tool is executed.
 
     It was made generally available in March 2026 and is designed to give security, compliance, and operations teams governance without requiring changes to agent logic or prompting. 
