@@ -1,10 +1,16 @@
 ## Bedrock AgentCore Identity 
-Bedrock AgentCore Identity is an Agent's identity and Credential management service that helps you to securely build enterprise-ready agents.
-It solves the unique security challenges of agentic AI by providing centralized, secure handling of authentication, authorization, and credentials.
+Bedrock AgentCore Identity is an **Agent's identity and Credential management service** that helps you to securely build enterprise-ready agents.
+It solves the unique security challenges of AgenticAI by providing centralized, secure handling of authentication, authorization, and credentials.
 It enables:
         - Agents to be invoked securely by users or applications.
         - Agents to call downstream AWS resources or third-party services (e.g., GitHub, Google Drive, Salesforce) without hardcoding secrets.
         - Full auditability, zero-trust verification on every request, and support for OAuth 2.0 (2-legged and 3-legged flows), IAM SigV4, JWT/OIDC, and API keys.
+
+        Zero Trust means :
+               Never trust any request by default — **always verify**:
+                Identity
+                Device
+                Context
 
 🧠 Core Idea
         Inbound authentication = Someone is calling your Agent

@@ -146,7 +146,9 @@ M - Large Language Model that you use to build your AI application.
 C - Context of the module
     Ex: To build an HR chatbot application to answer the employee query it needs access to certain enterprise HR data or third party data.
         So when you retrieve that data and provide it to the Large Language Model, you provided here some context (HR data context).
-P - Protocol means certain set of rules which allow you to exchange data between two devices.
+P - Protocol means certain set of rules which allow you to exchange data between two devices. Exchanging data between the large language model(LLM) or the model and 
+    different data sources, whether internal or external.
+
 
 * Its a Bridge between the Large Language Model and tools (different data sources, whether internal or external).
 * MCP is based on a client-server architecture
