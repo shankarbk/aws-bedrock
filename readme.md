@@ -3,15 +3,43 @@ It is the Serverless agentic platform for building, deploying, and operating hig
 
 - Its a fully managed service that makes FMs (foundation models) from leading AI startups and Amazon availabe via API, so that you can choose from wide range of FMs (Foundation Models) to find the model that suited for your usecse.
 
+What is LLM models ?
+A Large Language Model is a deep learning model trained on massive text datasets to understand and generate human language. 
+Using deep learning and neural networks, LLMs predict the next likely word in a sequence to create contextually relevant content, such as answering questions, translating languages, and writing code.
+
+Key LLMs on Bedrock: Anthropic Claude, Meta Llama, Amazon Titan, Mistral, Cohere.
+
+LLM’s role in AgentCore: 
+    The LLM is the “brain” — it does reasoning, planning, tool selection, and final response generation. AgentCore orchestrates everything around the LLM.
+
 What is foundation models (FMs) ?
 These are large-scale AI LLM models trained on vast, typically unlabeled data, acting as the versatile base (or foundation) for many AI applications
-
-What is LLM models ?
-A Large Language Model (LLM) is a type of AI designed to understand, generate, and analyze human-like text by training on vast datasets. Using deep learning and neural networks, LLMs predict the next likely word in a sequence to create contextually relevant content, such as answering questions, translating languages, and writing code.
+In AWS, LLMs are exposed as Foundation Models (FMs) via Amazon Bedrock
 
 what is RAG ?
-Retrieval-Augmented Generation (RAG) is an AI framework that improves Large Language Model's (LLM) accuracy by retrieving data from trusted sources before generating a response.
-Ex: Getting data from Enterprise DB instead of guessing
+RAG (Retrieval-Augmented Generation) is the process of optimizing LLM output so it references an authoritative knowledge base outside its training data before generating a response.
+    - It solves a core LLM problem: models have a knowledge cutoff and don't know your private/company data.
+    Ex: Getting data from Enterprise DB instead of guessing
+
+- Amazon Bedrock Knowledge Base implements the entire RAG workflow   
+    1. Ingestion phase (one-time / scheduled)
+    2. Query-time phase (every request)
+
+- RAG Integration with AgentCore:
+    1. A Knowledge Base is exposed as a tool inside AgentCore’s Gateway.
+    2. The agent (orchestrated by the LLM) decides when to call the KB (intelligent retrieval, not always-on).
+    3. This creates agentic RAG – the agent can do multi-step reasoning + retrieval.
+
+- How RAG works:   
+    1. Retrieve relevant documents/chunks from an external knowledge base (vector search). - one-time / scheduled  
+    2. Stuff those chunks into the LLM prompt as context.   
+    3. LLM generates an answer grounded in real data + cites sources.
+
+- Quick interview tips:
+    - LLM = brain; AgentCore = production runtime + orchestration layer; Knowledge Base = RAG engine.
+    - Always mention the orchestration loop (pre-process → reason → tool/KB call → observe → repeat).
+    - Highlight agentic RAG vs simple RAG (agent decides when/how to retrieve).
+    - Common follow-up: “How do you handle hallucinations?” → “RAG + Guardrails + source citation + AgentCore Policy.”
 
 Agentic AI frameworks (most famous)
 1. Bedrock agents

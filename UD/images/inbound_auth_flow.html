@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Inbound Authentication – End-to-End Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    padding: 32px 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 3px solid #4f46e5;
+    padding-bottom: 14px;
+    margin-bottom: 28px;
+  }
+  .header-badge {
+    background: #4f46e5;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+  .header p  { font-size: 13px; color: #555; margin-top: 2px; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    background: #f8f7ff;
+    border-radius: 8px;
+    border: 1px solid #ddd8ff;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #333; }
+  .legend-dot  { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ── Flow ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+
+  /* Step row */
+  .step-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Step number column */
+  .step-num {
+    width: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: #d0cef5;
+    margin: 4px auto 0;
+    min-height: 20px;
+  }
+  .step-row:last-child .step-line { display: none; }
+
+  /* Card */
+  .card {
+    flex: 1;
+    margin: 6px 0 6px 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px;
+    font-size: 13px; font-weight: 700;
+  }
+  .card-header .tag {
+    font-size: 10px; font-weight: 600; letter-spacing: .06em;
+    padding: 2px 7px; border-radius: 3px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .card-body { padding: 9px 14px 11px; }
+  .card-body p { font-size: 12.5px; line-height: 1.6; color: #333; }
+  .card-body ul { margin-top: 5px; padding-left: 16px; }
+  .card-body ul li { font-size: 12px; line-height: 1.7; color: #444; }
+
+  /* Arrow between rows */
+  .arrow-row {
+    display: flex; align-items: center; margin-left: 50px;
+    height: 22px;
+  }
+  .arrow-line {
+    width: 2px; height: 22px;
+    background: #c7c4f0;
+    margin: 0 auto;
+    position: relative;
+  }
+  .arrow-line::after {
+    content: '';
+    position: absolute;
+    bottom: -6px; left: 50%; transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #7c78d8;
+  }
+
+  /* Color themes */
+  /* Purple – actor/client */
+  .c-purple .card { border-color: #c4b8f5; background: #faf8ff; }
+  .c-purple .card-header { background: #ede8fd; color: #3b2e9c; }
+  .c-purple .step-circle { background: #6d5bd0; }
+  .c-purple .tag { background: #d6cff9; color: #3b2e9c; }
+
+  /* Blue – transport */
+  .c-blue .card { border-color: #b4d4f4; background: #f5faff; }
+  .c-blue .card-header { background: #daeeff; color: #0c447c; }
+  .c-blue .step-circle { background: #2876c8; }
+  .c-blue .tag { background: #c5e0f9; color: #0c447c; }
+
+  /* Teal – verification */
+  .c-teal .card { border-color: #9fe1cb; background: #f3fdf8; }
+  .c-teal .card-header { background: #d4f3e8; color: #085041; }
+  .c-teal .step-circle { background: #1d9e75; }
+  .c-teal .tag { background: #b5e8d6; color: #085041; }
+
+  /* Amber – policy */
+  .c-amber .card { border-color: #f5c870; background: #fffbf2; }
+  .c-amber .card-header { background: #fef0c7; color: #7a4b08; }
+  .c-amber .step-circle { background: #d48b10; }
+  .c-amber .tag { background: #fde7a0; color: #7a4b08; }
+
+  /* Coral – guardrails */
+  .c-coral .card { border-color: #f0a090; background: #fff8f6; }
+  .c-coral .card-header { background: #fde8e2; color: #7a2010; }
+  .c-coral .step-circle { background: #c84820; }
+  .c-coral .tag { background: #f8ccbb; color: #7a2010; }
+
+  /* Green – success */
+  .c-green .card { border-color: #b5d980; background: #f7fdf0; }
+  .c-green .card-header { background: #e4f5c8; color: #204808; }
+  .c-green .step-circle { background: #3b7014; }
+  .c-green .tag { background: #ceeaa0; color: #204808; }
+
+  /* ── Summary box ── */
+  .summary {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: #f0eeff;
+    border: 1.5px solid #c4b8f5;
+    border-radius: 10px;
+  }
+  .summary h3 { font-size: 13px; font-weight: 700; color: #3b2e9c; margin-bottom: 8px; }
+  .summary p  { font-size: 12px; line-height: 1.7; color: #333; }
+
+  /* ── Print ── */
+  @media print {
+    body { padding: 16px 20px; }
+    .card { box-shadow: none; }
+    @page { margin: 18mm 16mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-badge">AWS Bedrock AgentCore</div>
+    <h1>Inbound Authentication — End-to-End Flow</h1>
+    <p>How an external client proves its identity before AgentCore processes the request</p>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#6d5bd0"></div> Actor / Client</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2876c8"></div> Transport &amp; Gateway</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1d9e75"></div> Token Verification</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d48b10"></div> Policy &amp; IAM</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c84820"></div> Guardrails</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b7014"></div> Authorised Execution</div>
+</div>
+
+<!-- ════════════════ FLOW ════════════════ -->
+<div class="flow">
+
+  <!-- Step 1 -->
+  <div class="step-row c-purple">
+    <div class="step-num">
+      <div class="step-circle">1</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>Client / Calling Application</span>
+        <span class="tag">Actor</span>
+      </div>
+      <div class="card-body">
+        <p>An external application (web app, mobile app, another service, or a human user) wants to invoke the AgentCore agent. Before sending the request it must obtain credentials.</p>
+        <ul>
+          <li>Authenticates with its own Identity Provider (IdP) — e.g. Amazon Cognito, Okta, Azure AD, or corporate SSO</li>
+          <li>Receives a signed <strong>JWT / OAuth 2.0 Bearer Token</strong> (or AWS SigV4 credentials for AWS-native clients)</li>
+          <li>Attaches the token to every HTTP request in the <code>Authorization</code> header</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-row c-blue">
+    <div class="step-num">
+      <div class="step-circle">2</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>HTTPS Request → AgentCore Gateway</span>
+        <span class="tag">Transport</span>
+      </div>
+      <div class="card-body">
+        <p>The signed request travels over TLS 1.2+ to the AgentCore Runtime endpoint. AWS PrivateLink keeps traffic inside the VPC — it never traverses the public internet for enterprise deployments.</p>
+        <ul>
+          <li>Endpoint: <code>POST /agents/{agentId}/sessions/{sessionId}/text</code></li>
+          <li>Headers carry: <code>Authorization: Bearer &lt;token&gt;</code> and <code>x-api-key</code> (if API Gateway is fronting)</li>
+          <li>All traffic is logged to AWS CloudTrail for audit</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-row c-teal">
+    <div class="step-num">
+      <div class="step-circle">3</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>AgentCore Identity — Token Verification</span>
+        <span class="tag">Verification</span>
+      </div>
+      <div class="card-body">
+        <p>AgentCore Identity intercepts the request and verifies the presented credential before any model is invoked.</p>
+        <ul>
+          <li><strong>JWT path:</strong> Validates signature against IdP's JWKS endpoint, checks <code>iss</code>, <code>aud</code>, <code>exp</code>, and <code>sub</code> claims</li>
+          <li><strong>AWS SigV4 path:</strong> IAM verifies the HMAC signature and timestamp (±5 min drift allowed)</li>
+          <li><strong>API Key path:</strong> Key is hashed and matched against the stored record in API Gateway</li>
+          <li>On failure → returns <code>401 Unauthorized</code> immediately; request is dropped</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-row c-amber">
+    <div class="step-num">
+      <div class="step-circle">4</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>IAM Role Evaluation &amp; Permission Check</span>
+        <span class="tag">Policy</span>
+      </div>
+      <div class="card-body">
+        <p>Once identity is confirmed, AWS IAM evaluates whether this caller is <em>authorised</em> to invoke the specific agent and action.</p>
+        <ul>
+          <li>IAM policy must allow <code>bedrock:InvokeAgent</code> and <code>bedrock:InvokeModel</code> on the agent ARN</li>
+          <li>Resource-based policies on the agent control cross-account access</li>
+          <li>SCP (Service Control Policies) at the AWS Organisation level may further restrict what is allowed</li>
+          <li>On failure → returns <code>403 Forbidden</code>; logged to CloudTrail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-row c-coral">
+    <div class="step-num">
+      <div class="step-circle">5</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>AgentCore Policy — Guardrails &amp; Content Filters</span>
+        <span class="tag">Guardrails</span>
+      </div>
+      <div class="card-body">
+        <p>The request payload passes through AgentCore Policy — a deterministic enforcement layer that runs <em>outside</em> the LLM reasoning loop.</p>
+        <ul>
+          <li>Natural-language policies compiled to Cedar policy statements are evaluated before model invocation</li>
+          <li>Bedrock Guardrails scan for PII, toxicity, topic restrictions, and grounding checks</li>
+          <li>Session isolation is enforced — each session's context is sandboxed</li>
+          <li>Blocked requests return a policy-violation error with an audit trail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step-row c-green">
+    <div class="step-num">
+      <div class="step-circle">6</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>Authorised — Agent Execution Begins</span>
+        <span class="tag">Success</span>
+      </div>
+      <div class="card-body">
+        <p>All checks passed. The AgentCore Runtime proceeds with agent execution: loads Memory context, calls the Foundation Model via Bedrock, and orchestrates any tool calls via the Gateway.</p>
+        <ul>
+          <li>Token usage, latency, and session ID are emitted to CloudWatch dashboards</li>
+          <li>OpenTelemetry traces capture the full reasoning trace for debugging</li>
+          <li>Response is streamed back to the caller with source citations if RAG is active</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /flow -->
+
+<!-- Summary -->
+<div class="summary">
+  <h3>Interview key points — Inbound Authentication</h3>
+  <p>
+    <strong>What:</strong> Inbound auth is how a <em>client proves its identity to AgentCore</em> before any LLM is touched.
+    The three credential mechanisms are: <strong>JWT/OIDC tokens</strong> (for human/app SSO), <strong>AWS SigV4</strong> (for AWS-native service-to-service calls), and <strong>API Keys</strong> (for simple integrations via API Gateway).
+    After identity verification, <strong>IAM authorization</strong> checks what the caller is <em>allowed to do</em> — these are two separate steps (AuthN vs AuthZ).
+    AgentCore Policy then enforces <strong>business guardrails deterministically</strong> outside the model, making them impossible to prompt-inject around.
+    All events are auditable via <strong>CloudTrail + CloudWatch + OpenTelemetry</strong>.
+  </p>
+</div>
+
+</body>
+</html>

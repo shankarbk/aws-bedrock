@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Outbound Authentication – End-to-End Flow</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #ffffff;
+    color: #1a1a2e;
+    padding: 32px 40px 48px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 3px solid #0f6e56;
+    padding-bottom: 14px;
+    margin-bottom: 28px;
+  }
+  .header-badge {
+    background: #0f6e56;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+  .header p  { font-size: 13px; color: #555; margin-top: 2px; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    background: #f3fdf8;
+    border-radius: 8px;
+    border: 1px solid #b5e8d6;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #333; }
+  .legend-dot  { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+
+  /* ── Flow ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+
+  .step-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+
+  .step-num {
+    width: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-circle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    background: #9fe1cb;
+    margin: 4px auto 0;
+    min-height: 20px;
+  }
+  .step-row:last-child .step-line { display: none; }
+
+  .card {
+    flex: 1;
+    margin: 6px 0 6px 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px;
+    font-size: 13px; font-weight: 700;
+  }
+  .card-header .tag {
+    font-size: 10px; font-weight: 600; letter-spacing: .06em;
+    padding: 2px 7px; border-radius: 3px;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .card-body { padding: 9px 14px 11px; }
+  .card-body p { font-size: 12.5px; line-height: 1.6; color: #333; }
+  .card-body ul { margin-top: 5px; padding-left: 16px; }
+  .card-body ul li { font-size: 12px; line-height: 1.7; color: #444; }
+
+  /* Colour themes */
+  /* Purple – agent trigger */
+  .c-purple .card { border-color: #c4b8f5; background: #faf8ff; }
+  .c-purple .card-header { background: #ede8fd; color: #3b2e9c; }
+  .c-purple .step-circle { background: #6d5bd0; }
+  .c-purple .tag { background: #d6cff9; color: #3b2e9c; }
+
+  /* Teal – credential fetch */
+  .c-teal .card { border-color: #9fe1cb; background: #f3fdf8; }
+  .c-teal .card-header { background: #d4f3e8; color: #085041; }
+  .c-teal .step-circle { background: #1d9e75; }
+  .c-teal .tag { background: #b5e8d6; color: #085041; }
+
+  /* Blue – gateway */
+  .c-blue .card { border-color: #b4d4f4; background: #f5faff; }
+  .c-blue .card-header { background: #daeeff; color: #0c447c; }
+  .c-blue .step-circle { background: #2876c8; }
+  .c-blue .tag { background: #c5e0f9; color: #0c447c; }
+
+  /* Amber – token exchange */
+  .c-amber .card { border-color: #f5c870; background: #fffbf2; }
+  .c-amber .card-header { background: #fef0c7; color: #7a4b08; }
+  .c-amber .step-circle { background: #d48b10; }
+  .c-amber .tag { background: #fde7a0; color: #7a4b08; }
+
+  /* Coral – external service */
+  .c-coral .card { border-color: #f0a090; background: #fff8f6; }
+  .c-coral .card-header { background: #fde8e2; color: #7a2010; }
+  .c-coral .step-circle { background: #c84820; }
+  .c-coral .tag { background: #f8ccbb; color: #7a2010; }
+
+  /* Green – success */
+  .c-green .card { border-color: #b5d980; background: #f7fdf0; }
+  .c-green .card-header { background: #e4f5c8; color: #204808; }
+  .c-green .step-circle { background: #3b7014; }
+  .c-green .tag { background: #ceeaa0; color: #204808; }
+
+  /* ── Comparison table ── */
+  .compare {
+    margin-top: 32px;
+    border: 1.5px solid #9fe1cb;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .compare-title {
+    background: #1d9e75; color: #fff;
+    font-size: 13px; font-weight: 700;
+    padding: 10px 16px;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #e8faf3; font-size: 12px; font-weight: 700; color: #085041; padding: 8px 14px; text-align: left; border-bottom: 1px solid #c0ecd9; }
+  td { font-size: 12px; padding: 8px 14px; border-bottom: 1px solid #e8f5ee; color: #333; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── Summary ── */
+  .summary {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: #e8faf3;
+    border: 1.5px solid #9fe1cb;
+    border-radius: 10px;
+  }
+  .summary h3 { font-size: 13px; font-weight: 700; color: #085041; margin-bottom: 8px; }
+  .summary p  { font-size: 12px; line-height: 1.7; color: #333; }
+
+  @media print {
+    body { padding: 16px 20px; }
+    .card { box-shadow: none; }
+    @page { margin: 18mm 16mm; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-badge">AWS Bedrock AgentCore</div>
+    <h1>Outbound Authentication — End-to-End Flow</h1>
+    <p>How the agent proves its identity when calling external tools, APIs, and services</p>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#6d5bd0"></div> Agent / Trigger</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1d9e75"></div> Credential Fetch (AgentCore Identity)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2876c8"></div> AgentCore Gateway</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d48b10"></div> Token Exchange / Signing</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c84820"></div> External Service</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3b7014"></div> Result Back to Agent</div>
+</div>
+
+<!-- ════════════════ FLOW ════════════════ -->
+<div class="flow">
+
+  <!-- Step 1 -->
+  <div class="step-row c-purple">
+    <div class="step-num">
+      <div class="step-circle">1</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>LLM decides to call an external tool</span>
+        <span class="tag">Agent Trigger</span>
+      </div>
+      <div class="card-body">
+        <p>During reasoning, the Foundation Model determines it needs to call an external resource — a REST API, a database, a SaaS platform (Salesforce, Jira), or an AWS service (S3, DynamoDB, Lambda).</p>
+        <ul>
+          <li>The agent emits a <em>tool-use</em> block specifying the tool name and parameters</li>
+          <li>AgentCore Runtime intercepts this before any outbound call is made</li>
+          <li>The Runtime enforces AgentCore Policy — checking if the agent is <em>allowed</em> to call this tool for this user</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="step-row c-teal">
+    <div class="step-num">
+      <div class="step-circle">2</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>AgentCore Identity — credential retrieval</span>
+        <span class="tag">Identity</span>
+      </div>
+      <div class="card-body">
+        <p>AgentCore Identity looks up the correct credential for this tool call. Credentials are <strong>never embedded in agent code or prompts</strong>. They live in secure stores.</p>
+        <ul>
+          <li><strong>AWS resources:</strong> The agent's execution IAM Role is assumed via STS — produces short-lived access key + secret + session token (TTL: 1 hour)</li>
+          <li><strong>OAuth 2.0 services (Salesforce, Google, GitHub):</strong> AgentCore uses a pre-authorised OAuth refresh token stored in AWS Secrets Manager → exchanges for a fresh access token via the IdP's token endpoint</li>
+          <li><strong>API Key services:</strong> Fetches the key from Secrets Manager at runtime — key is never in plaintext in code</li>
+          <li><strong>User-delegated access:</strong> If acting on a user's behalf, AgentCore Identity holds a user-consented OAuth token and uses it (OAuth on-behalf-of flow)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="step-row c-blue">
+    <div class="step-num">
+      <div class="step-circle">3</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>AgentCore Gateway — tool routing &amp; policy enforcement</span>
+        <span class="tag">Gateway</span>
+      </div>
+      <div class="card-body">
+        <p>The Gateway acts as a secure proxy between the agent and the external world. It transforms the LLM's tool-use intent into a real authenticated HTTP/AWS API call.</p>
+        <ul>
+          <li>Validates that the tool call parameters match the registered schema (prevents injection)</li>
+          <li>Applies natural-language Cedar policies deterministically — e.g. "agent cannot call DELETE on production S3 bucket"</li>
+          <li>Injects the fetched credential into the outbound request headers</li>
+          <li>Logs every outbound call attempt to CloudTrail with agent session ID, tool name, and parameters</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="step-row c-amber">
+    <div class="step-num">
+      <div class="step-circle">4</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>Request signing / token attachment</span>
+        <span class="tag">Token Exchange</span>
+      </div>
+      <div class="card-body">
+        <p>The outbound HTTP request is signed or credentialed based on what the target service expects.</p>
+        <ul>
+          <li><strong>AWS services (S3, DynamoDB, Bedrock itself):</strong> Request is signed with AWS Signature Version 4 (SigV4) using the STS-issued temp credentials</li>
+          <li><strong>OAuth 2.0 services:</strong> <code>Authorization: Bearer &lt;access_token&gt;</code> header is attached</li>
+          <li><strong>API Key services:</strong> <code>x-api-key: &lt;key&gt;</code> or custom header injected as required</li>
+          <li><strong>mTLS:</strong> For services requiring mutual TLS, the agent's client certificate (stored in ACM) is presented during TLS handshake</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div class="step-row c-coral">
+    <div class="step-num">
+      <div class="step-circle">5</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>External service validates &amp; processes</span>
+        <span class="tag">External Service</span>
+      </div>
+      <div class="card-body">
+        <p>The external service (AWS API, SaaS platform, internal API) receives the authenticated request and processes it.</p>
+        <ul>
+          <li>AWS: IAM validates SigV4 signature and checks the Role's permission policies against the requested action and resource</li>
+          <li>OAuth service: validates the Bearer token against its JWKS, checks scopes (e.g. <code>read:contacts</code>), and processes the request</li>
+          <li>Returns the result (data, confirmation, error) as JSON/XML over HTTPS back to the Gateway</li>
+          <li>If auth fails → 401/403 is returned; AgentCore Gateway catches it, logs it, and surfaces a tool-error to the LLM for retry or graceful failure</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <div class="step-row c-green">
+    <div class="step-num">
+      <div class="step-circle">6</div>
+      <div class="step-line"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span>Tool result returned to agent — reasoning continues</span>
+        <span class="tag">Success</span>
+      </div>
+      <div class="card-body">
+        <p>The Gateway passes the external service's response back to the AgentCore Runtime, which injects it as a tool result into the LLM's context for the next reasoning step.</p>
+        <ul>
+          <li>Credentials are <strong>never exposed</strong> in the tool result — only the data payload is passed to the LLM</li>
+          <li>AgentCore Memory can persist relevant results (e.g. retrieved user data) to the session for future turns</li>
+          <li>The LLM uses the result to continue reasoning and produce the final answer for the user</li>
+          <li>Metrics: latency, token usage, and tool call count emitted to CloudWatch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /flow -->
+
+<!-- Comparison table -->
+<div class="compare" style="margin-top:32px">
+  <div class="compare-title">Outbound credential mechanisms — quick reference</div>
+  <table>
+    <tr>
+      <th>Target service type</th>
+      <th>Credential used</th>
+      <th>Where stored</th>
+      <th>Signing / attachment</th>
+    </tr>
+    <tr>
+      <td>AWS services (S3, DynamoDB, Lambda…)</td>
+      <td>STS temporary credentials (IAM Role assumption)</td>
+      <td>STS — generated at runtime, TTL 1hr</td>
+      <td>AWS SigV4 request signing</td>
+    </tr>
+    <tr>
+      <td>OAuth 2.0 SaaS (Salesforce, GitHub, Google)</td>
+      <td>OAuth 2.0 access token (from refresh token)</td>
+      <td>Refresh token in AWS Secrets Manager</td>
+      <td>Authorization: Bearer header</td>
+    </tr>
+    <tr>
+      <td>API Key services (Stripe, SendGrid, custom)</td>
+      <td>Static API key</td>
+      <td>AWS Secrets Manager</td>
+      <td>Custom header (x-api-key etc.)</td>
+    </tr>
+    <tr>
+      <td>User-delegated (act on behalf of user)</td>
+      <td>User-consented OAuth token</td>
+      <td>AgentCore Identity — user consent store</td>
+      <td>Bearer token for that user's scope</td>
+    </tr>
+    <tr>
+      <td>mTLS services (high-security internal APIs)</td>
+      <td>Client TLS certificate</td>
+      <td>AWS Certificate Manager (ACM)</td>
+      <td>Presented during TLS handshake</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Summary -->
+<div class="summary">
+  <h3>Interview key points — Outbound Authentication</h3>
+  <p>
+    <strong>What:</strong> Outbound auth is how the <em>agent proves its identity to external services</em> when making tool calls.
+    The core principle is <strong>zero secrets in code or prompts</strong> — all credentials are fetched at runtime from Secrets Manager or STS.
+    <strong>AgentCore Identity</strong> manages credential retrieval; <strong>AgentCore Gateway</strong> enforces policies and injects credentials.
+    For AWS resources, <strong>IAM Role assumption via STS</strong> produces short-lived temp credentials — preferred over long-lived keys.
+    For SaaS platforms, <strong>OAuth 2.0 with refresh tokens</strong> is the standard — the agent never holds user passwords.
+    <strong>Cedar policies</strong> in AgentCore Policy provide deterministic guardrails on which tools the agent can call and on which resources — enforced <em>before</em> the outbound call, not inside the LLM reasoning loop.
+  </p>
+</div>
+
+</body>
+</html>
