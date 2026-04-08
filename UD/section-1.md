@@ -17,21 +17,21 @@ AgenticAI usecases include:
 * AgenticAI ---> acts and manages processes independently. 
 
 * Key Differences:
-- Behavior:   
-    GenAI is reactive (waits for a prompt).   
-    Agentic AI is proactive (initiates action to meet goals).
-    
-- Autonomy:   
-    GenAI has low autonomy;    
-    Agentic AI has high autonomy, ***operating with minimal supervision***.
+    - Behavior:   
+        GenAI is reactive (waits for a prompt).   
+        Agentic AI is proactive (initiates action to meet goals).
+        
+    - Autonomy:   
+        GenAI has low autonomy;    
+        Agentic AI has high autonomy, ***operating with minimal supervision***.
 
-- Task Scope:   
-    GenAI handles single-step tasks.   
-    Agentic AI manages complex, multi-step workflows.
+    - Task Scope:   
+        GenAI handles single-step tasks.   
+        Agentic AI manages complex, multi-step workflows.
 
-- Function:   
-    GenAI generates content based on patterns.   
-    Agentic AI plans, decides, and utilizes tools/APIs.
+    - Function:   
+        GenAI generates content based on patterns.   
+        Agentic AI plans, decides, and utilizes tools/APIs.
 
 - Once we built GenerativeAI, RAG or AgenticAI applications, deploying them to production wrt scalability, observability,  monitoring is a big challenge, thats where Bedrock AgentCore come into.    
 
