@@ -74,10 +74,10 @@ AI Agents are specialized, often standalone, ***software programs designed to pe
     1. General-Purpose Agent Frameworks (Most Popular)
         These are the ones most engineers start with.
 
-        🔹LangChain : it has Huge ecosystem (tools, memory, chains)
+        🔹LangChain : it has Huge ecosystem (tools, memory, chains)   
             👉 Use when: You want full control + ecosystem
 
-        🔹LlamaIndex : Best-in-class for RAG (Retrieval-Augmented Generation)
+        🔹LlamaIndex : Best-in-class for RAG (Retrieval-Augmented Generation)   
             👉 Use when: Your agent depends heavily on data retrieval
 
         🔹Haystack : Mature NLP pipeline framework evolving into agents
@@ -85,10 +85,10 @@ AI Agents are specialized, often standalone, ***software programs designed to pe
     2. Agent-Native Frameworks (Built Specifically for Agents):
         These are closer to what “AgentCore” is trying to solve.
 
-        🔹 AutoGPT : First “fully autonomous agent” concept
+        🔹 AutoGPT : First “fully autonomous agent” concept   
             👉 Reality: Great for demos, weak for production
         
-        🔹 CrewAI : Clean abstraction for multi-agent systems
+        🔹 CrewAI : Clean abstraction for multi-agent systems   
             👉 Use when: You want “team of agents” design
 
         🔹 SuperAGI: Tries to be a full agent platform (like AWS Bedrock)
@@ -98,7 +98,7 @@ AI Agents are specialized, often standalone, ***software programs designed to pe
     3. Research / Advanced Agent Frameworks
         These push the boundaries.
 
-        🔹 LangGraph : Built by LangChain team to fix its own problems
+        🔹 LangGraph : Built by LangChain team to fix its own problems          
             👉 This is closer to real production-grade agents
 
         🔹 DSPy: Treats prompts like programs that can be optimized
