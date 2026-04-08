@@ -1,6 +1,8 @@
 * What is Amazon Bedrock AgentCore ?   
 It is the Serverless agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model. 
 
+***Bedrock agent core allows you to deploy AgenticAI apps which is built on any framework and any foundation model to AgentCore Runtime.***
+
 - Its a fully managed service that makes FMs (foundation models) from leading AI startups and Amazon availabe via API, so that you can choose from wide range of FMs (Foundation Models) to find the model that suited for your usecse.
 
 * What is LLM models ?   
