@@ -1,33 +1,33 @@
-What is Amazon Bedrock ?
+* What is Amazon Bedrock AgentCore ?   
 It is the Serverless agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model. 
 
 - Its a fully managed service that makes FMs (foundation models) from leading AI startups and Amazon availabe via API, so that you can choose from wide range of FMs (Foundation Models) to find the model that suited for your usecse.
 
-What is LLM models ?
+* What is LLM models ?   
 A Large Language Model is a deep learning model trained on massive text datasets to understand and generate human language. 
-Using deep learning and neural networks, LLMs predict the next likely word in a sequence to create contextually relevant content, such as answering questions, translating languages, and writing code.
+Using deep learning and neural networks, LLMs predict the next likely word in a sequence to create contextually relevant content, such as answering questions, translating languages, and writing code.   
 
-Key LLMs on Bedrock: Anthropic Claude, Meta Llama, Amazon Titan, Mistral, Cohere.
+- Key LLMs on Bedrock: Anthropic Claude, Meta Llama, Amazon Titan, Mistral, Cohere.   
 
-LLM’s role in AgentCore: 
-    The LLM is the “brain” — it does reasoning, planning, tool selection, and final response generation. AgentCore orchestrates everything around the LLM.
-
-What is foundation models (FMs) ?
+LLM’s role in AgentCore:   
+    The LLM is the “brain” — it does reasoning, planning, tool selection, and final response generation. AgentCore orchestrates everything around the LLM   
+    
+* What is foundation models (FMs) ?   
 These are large-scale AI LLM models trained on vast, typically unlabeled data, acting as the versatile base (or foundation) for many AI applications
-In AWS, LLMs are exposed as Foundation Models (FMs) via Amazon Bedrock
+In AWS, LLMs are exposed as Foundation Models (FMs) via ***Amazon Bedrock***  
 
-what is RAG ?
-RAG (Retrieval-Augmented Generation) is the process of optimizing LLM output so it references an authoritative knowledge base outside its training data before generating a response.
+* what is RAG ?   
+RAG (Retrieval-Augmented Generation) is the process of optimizing LLM output so it references an authoritative Knowledge Base outside its training data before generating a response. 
     - It solves a core LLM problem: models have a knowledge cutoff and don't know your private/company data.
     Ex: Getting data from Enterprise DB instead of guessing
 
-- Amazon Bedrock Knowledge Base implements the entire RAG workflow   
+- ***Amazon Bedrock*** Knowledge Base implements the entire RAG workflow   
     1. Ingestion phase (one-time / scheduled)
     2. Query-time phase (every request)
 
 - RAG Integration with AgentCore:
     1. A Knowledge Base is exposed as a tool inside AgentCore’s Gateway.
-    2. The agent (orchestrated by the LLM) decides when to call the KB (intelligent retrieval, not always-on).
+    2. The agent (orchestrated by the LLM) decides when to call the Knowledge Base (intelligent retrieval, not always-on).
     3. This creates agentic RAG – the agent can do multi-step reasoning + retrieval.
 
 - How RAG works:   
@@ -36,27 +36,39 @@ RAG (Retrieval-Augmented Generation) is the process of optimizing LLM output so 
     3. LLM generates an answer grounded in real data + cites sources.
 
 - Quick interview tips:
-    - LLM = brain; AgentCore = production runtime + orchestration layer; Knowledge Base = RAG engine.
-    - Always mention the orchestration loop (pre-process → reason → tool/KB call → observe → repeat).
+    - LLM = brain; 
+    - AgentCore = production runtime + orchestration layer; 
+    - Knowledge Base = RAG engine.
+    - Always mention the ***orchestration loop*** (pre-process → reason → tool/KB call → observe → repeat).
     - Highlight agentic RAG vs simple RAG (agent decides when/how to retrieve).
     - Common follow-up: “How do you handle hallucinations?” → “RAG + Guardrails + source citation + AgentCore Policy.”
 
+- What is AI hallucinations ?   
+these are incorrect or misleading results that AI models generate. These errors can be caused by a variety of factors, including insufficient training data, incorrect assumptions made by the model, or biases in the data used to train the model. AI hallucinations can be a problem for AI systems that are used to make important decisions, such as medical diagnoses or financial trading.
+
 Agentic AI frameworks (most famous)
-1. Bedrock agents
+1. AutoGen
 2. CrewAI
-3. LangGraph
+3. LangGraph   
+4. LangChain
 
-MCP(Model Context Protocol) : Its communication protocol between agent and tools.
+- How to Choose:   
+    - Complexity & Control: Use ***LangGraph*** for complex, stateful workflows.   
+    - Speed & Simplicity: Use ***Agno*** or ***CrewA***I for faster development.   
+    - Enterprise/Microsoft Stack: Use ***Semantic Kernel***.   
+    - Data-Heavy Tasks: Use ***LlamaIndex***.
 
-- What is **GenerativeAI** ?
+- MCP(Model Context Protocol) : Its communication protocol between ***Agent*** and ***Tools***.
+
+- What is **GenerativeAI** ?   
 Generative AI creates new content (text, images, code) in response to prompts, acting as a reactive tool.
 
-What is **AgenticAI** ?
-Agentic AI acts proactively as an autonomous agent, breaking down complex goals into multi-step, independent actions using tools.
+What is **AgenticAI** ?   
+Agentic AI acts proactively as an ***Autonomous agent***, it breaking down complex goals into multi-step, independent actions using tools.
 
-What is **AI-Agents** ? 
-AI Agents are specialized, often standalone, software programs designed to perform specific, predefined tasks, such as booking a meeting. 
-    AI agents are softwares, while Agentic AI is the system that coordinates them
+What is **AI-Agents** ?    
+AI Agents are specialized, often standalone, ***software programs designed to perform specific, predefined tasks*** (Ex: such as booking a meeting).
+    AI agents are softwares, while Agentic AI is the system that coordinates them.
 
 - Open Source AgenticAI Frameworks (actively used frameworks as below):
     1. General-Purpose Agent Frameworks (Most Popular)
