@@ -113,10 +113,9 @@ AI Agents are specialized, often standalone, ***software programs designed to pe
 | Research / optimization | DSPy            |
 | Enterprise (non-AWS)    | Semantic Kernel |
 
-🧠 Key Insight (Most People Miss This)
-    ❗ Framework choice matters less than agent design patterns
-
-    Even the best framework won’t save you if:
-        Your tool definitions are bad
-        Your prompts are weak
-        Your workflows are unclear
+🧠 Key Insight (Most People Miss This)   
+    ❗ Framework choice matters less than agent design patterns   
+        Even the best framework won’t save you if:   
+            Your tool definitions are bad   
+            Your prompts are weak   
+            Your workflows are unclear
