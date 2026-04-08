@@ -1,5 +1,5 @@
 * What is Amazon Bedrock AgentCore ?   
-It is the Serverless agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model. 
+Amazon Bedrock AgentCore is AWS’s fully-managed, agentic platform for building, deploying, and running production-grade AI-Agents at scale. 
 
 ***Bedrock agent core allows you to deploy AgenticAI apps which is built on any framework and any foundation model to AgentCore Runtime.***
 

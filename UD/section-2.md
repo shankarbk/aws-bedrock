@@ -1,13 +1,13 @@
-- What is Amazon Bedrock AgentCore ?
-Amazon Bedrock AgentCore is an **agentic platform** to build, deploy, and operate highly capable agents securely at scale. 
+- What is Amazon Bedrock AgentCore ?   
+Amazon Bedrock AgentCore is AWS’s fully-managed, ***Agentic platform*** for building, deploying, and running production-grade AI-Agents at scale. It is modular and works with any framework (LangChain, CrewAI, Strands, etc.) and any model (Bedrock FMs or external LLMs). 
 
-Amazon Bedrock AgentCore service provides a set of capabilities that can help you transition from POC built on agentic AI to production ready systems.
+Bedrock agent core allows you to deploy AgenticAI apps which is built on ***any framework*** and ***any foundation model*** to **AgentCore Runtime**   
 
-Amazon Bedrock AgentCore is AWS’s fully-managed, agentic platform for building, deploying, and running production-grade AI agents at scale. It is modular and works with any framework (LangChain, CrewAI, Strands, etc.) and any model (Bedrock FMs or external LLMs).
+- Amazon Bedrock AgentCore service provides a set of capabilities that can help you transition from POC built on AgenticAI to production ready systems.
 
 - Amazon Bedrock AgentCore and Amazon Bedrock Agents are two different services in the AWS GenAI Ecosystem. 
     - Amazon Bedrock Agents : is a fully managed service that allows you to build and configure autonomous agents without managing infrastructure or writing custom code. 
-    - Amazon Bedrock AgentCore :  is a comprehensive set of services designed to deploy and operate AI agents securely at scale using any AI framework and Large Language Model.
+    - Amazon Bedrock AgentCore :  is a comprehensive set of services designed to deploy and operate AI-Agents securely at scale using any AI framework and Large Language Model.
 
 - Core Problems AgentCore Fixes:
     1. LLMs are stateless
